@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+<gazebo reference="base_right_frot_wheel_joint">
+    <mu1 value="0.1" />
+    <mu2 value="0.1" />
+</gazebo>
+<gazebo reference="base_left_frot_wheel_joint">
+    <mu1 value="0.1" />
+    <mu2 value="0.1" />
+</gazebo>
+
+
+<!-- Gazebo plugin configuration -->
+<ros2_control name="OneDoFPosition" type="system">
+
+        <hardware>
+            <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+        </hardware>
+        <joint name="base_left_wheel_joint">
+            <command_interface name="position" />
+            <command_interface name="velocity" />
+            <state_interface name="position">
+		    <!--param name="initial_value">0.0</param-->
+            </state_interface>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+
+        <joint name="base_right_wheel_joint">
+            <command_interface name="position" />
+            <command_interface name="velocity" />
+            <state_interface name="position">
+                <!--param name="initial_value">0.0</param-->
+            </state_interface>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+</ros2_control>
+
+<gazebo>
+	<plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+		<parameters>$(find other_robot_bringup)/config/controller.yaml</parameters>
+	</plugin>
+</gazebo>
+
+<gazebo reference="base_scan">
+          <sensor name="hls_lfcd_lds" type="gpu_lidar">
+          <always_on>true</always_on>
+          <visualize>true</visualize>
+          <pose>-0.064 0 0.15 0 0 0</pose>
+          <update_rate>5</update_rate>
+          <topic>scan</topic>
+          <gz_frame_id>base_scan</gz_frame_id>
+          <ray>
+            <scan>
+              <horizontal>
+                <samples>360</samples>
+                <resolution>1.000000</resolution>
+                <min_angle>0.000000</min_angle>
+                <max_angle>6.280000</max_angle>
+              </horizontal>
+            </scan>
+            <range>
+              <min>0.00001</min>
+              <max>20.0</max>
+              <resolution>0.015000</resolution>
+            </range>
+            <noise>
+              <type>gaussian</type>
+              <mean>0.0</mean>
+              <stddev>0.01</stddev>
+            </noise>
+          </ray>
+      </sensor>
+</gazebo>
+
+
+</robot>

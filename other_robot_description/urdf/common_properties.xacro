@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <material name="green">
+        <color rgba="0 0.6 0 1" />
+    </material>
+    <material name="gray">
+    <color rgba="0.7 0.7 0.7 1" />
+    </material>
+      <material name="dark">
+      <color rgba="0.0118 0.0118 0.0118 1"/>
+        <!--diffuse>${3/255} ${3/255} ${3/255} 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <emissive>0 0 0 1</emissive-->
+	</material>
+
+
+<xacro:macro name="box_inertia" params="m x y z o_xyz o_rpy">
+    <inertial>
+        <mass value="${m}" />
+        <origin xyz="${o_xyz}" rpy="${o_rpy}" />
+        <inertia ixx="${(m/12) * (z*z + y*y)}" ixy="0" ixz="0"
+                 iyy="${(m/12) * (x*x + z*z)}" iyz="0"
+                 izz="${(m/12) * (x*x + y*y)}" />
+    </inertial>
+</xacro:macro>
+
+<xacro:macro name="cylinder_inertia" params="m r l o_xyz o_rpy">
+    <inertial>
+        <mass value="${m}" />
+        <origin xyz="${o_xyz}" rpy="${o_rpy}" />
+        <inertia ixx="${(m/12) * (3*r*r + l*l)}" ixy="0" ixz="0"
+                 iyy="${(m/12) * (3*r*r + l*l)}" iyz="0"
+                 izz="${(m/2) * (r*r)}" />
+    </inertial>
+</xacro:macro>
+
+<!--xacro:macro name="ray_sensor" 
+    params="sensor_name gazebo update_rate visualize 
+            h_samples h_res h_min_angle h_max_angle
+            r_min r_max r_res *plugin">
+    <sensor name="${sensor_name}" type="gpu_lidar">
+      <update_rate>${update_rate}</update_rate>
+      <visualize>${visualize}</visualize>
+      <always_on>true</always_on>
+      <gz_frame_id>${sensor_name}_link</gz_frame_id>
+      <topic>scan</topic>
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>${h_samples}</samples>
+            <resolution>${h_res}</resolution>
+            <min_angle>${h_min_angle}</min_angle>
+            <max_angle>${h_max_angle}</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>${r_min}</min>
+          <max>${r_max}</max>
+          <resolution>${r_res}</resolution>
+        </range>
+      </lidar>
+    </sensor>
+  </xacro:macro-->
+
+</robot>
